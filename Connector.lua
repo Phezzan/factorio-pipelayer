@@ -99,14 +99,14 @@ function Connector:transfer_to(expected_fluid, to_connector)
   local from_amount = from_fluid and from_fluid.amount or 0
   local to_amount = to_fluid and to_fluid.amount or 0
   local space_available = CAPACITY - to_amount
-  local amount_to_move = math.min(from_amount, space_available)
+  local amount_to_move = math.min(from_amount / 2.0, space_available)
 
 
   local from_temperature = from_fluid and from_fluid.temperature or 0
   local to_temperature = to_fluid and to_fluid.temperature or 0
-  local from_weighted_temperature = from_amount * from_temperature
+  local from_weighted_temperature = amount_to_move * from_temperature
   local to_weighted_temperature = to_amount * to_temperature
-  local new_to_temperature = (from_weighted_temperature + to_weighted_temperature) / (from_amount + to_amount)
+  local new_to_temperature = (from_weighted_temperature + to_weighted_temperature) / (amount_to_move + to_amount)
 
   local new_from_amount = from_amount - amount_to_move
   if new_from_amount > 0 then
